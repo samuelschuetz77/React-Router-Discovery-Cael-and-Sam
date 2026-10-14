@@ -26,25 +26,41 @@ function PokemonResult()
 {
     const {pokemonSearch} = useParams()
     const [pokemon, setPokemon] = useState<PokemonProps | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
-    useEffect(() => {
+    useEffect(() => { 
+       
 
         async function getPokemon() {
-            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSearch}`)
-            const data = await response.json()
-
-            const newPokemon: PokemonProps = {
-                name: data.name,
-                height: data.height,
-                base_xp: data.base_experience,
-                image: data.sprites.front_default,
+            setPokemon(null)
+            setError(null)
+            try
+            {
+                
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSearch}`)
+                if (!response.ok){
+                    setError("Could not find that Pokemon!")
+                    return
+                }
+                const data = await response.json()
+    
+                const newPokemon: PokemonProps = {
+                    name: data.name,
+                    height: data.height,
+                    base_xp: data.base_experience,
+                    image: data.sprites.front_default,
+                }
+    
+                setPokemon(newPokemon)
             }
-
-            setPokemon(newPokemon)
+            catch{
+                setError("The request failed. Your connection sucks")
+            }
         }
         getPokemon()
     }, [pokemonSearch])
 
+    if (error) return <p>{error}</p>
     if (!pokemon) return <p>Loading...</p>
     return <Pokemon {...pokemon} />
 }
