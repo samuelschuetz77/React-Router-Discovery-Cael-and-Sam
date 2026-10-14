@@ -19,9 +19,9 @@ function PokemonList() {
 
     return (
         <ul>
-            {pokemonList.map((pokemon) => (
-                <li key={pokemon.name}>
-                    <Link to={`/pokemon/${pokemon.name}`}>{pokemon.name}</Link>
+            {pokemonList.map((p) => (
+                <li key={p.name}>
+                    <Link to={`/pokemon/${p.name}`}>{p.name}</Link>
                 </li>
             ))}
         </ul>
