@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Route, Routes, useNavigate, useParams } from "react-router-dom"
 import Pokemon from "./Pokemon"
 import { type PokemonProps } from "./Pokemon"
+import PokemonList from "./components/PokemonList"
 
 function PokemonPage() {
     const navigate = useNavigate()
@@ -16,6 +17,7 @@ function PokemonPage() {
             </div>
 
             <Routes>
+                <Route index element={<PokemonList />} />
                 <Route path=":pokemonSearch" element={<PokemonResult />} />
             </Routes>
         </>
